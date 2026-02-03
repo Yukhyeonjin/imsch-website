@@ -33,9 +33,14 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 
 # AI & Agent artifacts
+# AI & Agent artifacts
 .gemini/
 brain/
-.agent/
+# .agent/ is needed for workflows, so we don't ignore the root folder
+# Instead, we can ignore specific subfolders if needed, or just allow it.
+# For now, let's keep it open or manage subfolders.
+# If we want to ignore everything in .agent EXCEPT workflows:
+.agent/*
 !.agent/workflows/
 .DS_Store
 
