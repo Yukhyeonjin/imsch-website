@@ -10,7 +10,11 @@ Git Flow 방식을 기본으로 하며, 아래 명명 규칙을 따릅니다.
 
 ## 2. Commit Message Convention (커밋 메시지 규칙)
 커밋 메시지는 [Conventional Commits](https://www.conventionalcommits.org) 형식을 따릅니다.
-```text
+
+**작성 규칙:**
+- **type**: 반드시 **영문 소문자**를 사용합니다.
+- **subject**: **한글/영문 혼합** 사용이 가능합니다. (명확한 내용 전달 권장)
+
 <type>: <subject>
 
 [optional body]
