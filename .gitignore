@@ -36,6 +36,7 @@ yarn-error.log*
 .gemini/
 brain/
 .agent/
+!.agent/workflows/
 .DS_Store
 
 # Sensitive Environment Files
