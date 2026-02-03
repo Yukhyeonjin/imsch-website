@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// 사용자 프로필 (Supabase Auth와 연동)
+model Profile {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  role      Role     @default(MEMBER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  posts     Post[]
+}
+
+enum Role {
+  USER
+  MEMBER
+  ADMIN
+}
+
+// 공지사항 및 게시판
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  category  String   // NOTICE, NEWS, EVENT
+  authorId  String
+  author    Profile  @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 주보 (PDF 파일 링크 저장)
+model Bulletin {
+  id          String   @id @default(uuid())
+  title       String
+  date        DateTime // 주보 날짜
+  pdfUrl      String   // Supabase Storage URL
+  createdAt   DateTime @default(now())
+}
+
+// 갤러리 (이미지)
+model Gallery {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  imageUrl    String   // Supabase Storage URL
+  date        DateTime @default(now()) // 행사 날짜
+  createdAt   DateTime @default(now())
+}
