@@ -6,9 +6,9 @@
     - [x] 스타일링(Tailwind CSS) 및 필수 라이브러리 설정 <!-- id: 3 -->
     - [x] 기본 레이아웃 (Header, Footer) 구현 <!-- id: 18 -->
     - [x] Github 레포지토리 연결 및 배포 브랜치 설정 (master, develop) <!-- id: 19 -->
-- [/] 데이터베이스 및 백엔드 설정 <!-- id: 4 -->
+- [x] 데이터베이스 및 백엔드 설정 <!-- id: 4 -->
     - [x] Prisma 설정 및 스키마 설계 (User, Post, Gallery, Bulletin) <!-- id: 5 -->
-    - [ ] Supabase 프로젝트 연동 (환경변수 설정 및 DB Push) <!-- id: 6 -->
+    - [x] Supabase 프로젝트 연동 (환경변수 설정 및 DB Push) <!-- id: 6 -->
 - [/] 핵심 기능 구현 (Workflow: 코드 -> 테스트 -> 커밋) <!-- id: 7 -->
     - [/] 홈페이지 (Hero Section, 소개, 최신 소식) <!-- id: 8 -->
     - [/] 교회 소식 및 주보 (CRUD + 파일 업로드) <!-- id: 9 -->
