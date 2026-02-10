@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
+import { toast } from "sonner"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -33,9 +34,13 @@ export function SignupForm() {
         try {
             const result = await signup(data)
             if (result?.error) {
+                toast.error(result.error)
                 setError(result.error)
+            } else {
+                toast.success("회원가입이 완료되었습니다. 이메일을 확인해주세요.")
             }
         } catch (e) {
+            toast.error("회원가입 중 오류가 발생했습니다.")
             setError("회원가입 중 오류가 발생했습니다.")
         } finally {
             setIsLoading(false)

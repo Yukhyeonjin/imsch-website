@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
+import { toast } from "sonner"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -33,10 +34,13 @@ export function LoginForm() {
         try {
             const result = await login(data)
             if (result?.error) {
+                toast.error(result.error)
                 setError(result.error)
+            } else {
+                toast.success("로그인되었습니다.")
             }
-            // Success redirection is handled in server action
         } catch (e) {
+            toast.error("로그인 중 오류가 발생했습니다.")
             setError("로그인 중 오류가 발생했습니다.")
         } finally {
             setIsLoading(false)
