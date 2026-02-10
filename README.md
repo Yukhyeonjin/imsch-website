@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 인천국제명성교회 웹사이트 (Incheon International Myungsung Church Website)
 
 이 프로젝트는 비용 효율적이고 보안이 강력한 교회 웹사이트 구축을 목표로 합니다.
@@ -63,3 +64,7 @@ npm run dev
 
 이 프로젝트는 `feature` 브랜치 워크플로를 따릅니다. 새로운 기능은 `feature/` 브랜치에서 개발 후 `develop`으로 병합됩니다.
 자세한 내용은 [Git Rules](docs/GIT_RULES.md)를 참고하세요.
+=======
+# imsch-website
+국제명성교회 웹사이트 프로젝트 (React + Next.js + Supabase)
+>>>>>>> 047663a57e4f8b7685611b9c4901dbd7ee24ff99

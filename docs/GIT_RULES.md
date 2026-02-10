@@ -4,7 +4,7 @@
 
 ## 1. Branch Strategy (브랜치 전략)
 Git Flow 방식을 기본으로 하며, 아래 명명 규칙을 따릅니다.
-*   **master**: 제품으로 출시될 수 있는 브랜치
+*   **main**: 제품으로 출시될 수 있는 브랜치 (Vercel 배포)
 *   **develop**: 다음 출시 버전을 개발하는 브랜치
 *   **feature/`기능명`**: 기능 개발 브랜치 (예: `feature/login-page`)
 

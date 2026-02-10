@@ -5,7 +5,7 @@
     - [x] Next.js 프로젝트 초기화 (모바일 우선 반응형 설정) <!-- id: 2 -->
     - [x] 스타일링(Tailwind CSS) 및 필수 라이브러리 설정 <!-- id: 3 -->
     - [x] 기본 레이아웃 (Header, Footer) 구현 <!-- id: 18 -->
-    - [x] Github 레포지토리 연결 및 배포 브랜치 설정 (master, develop) <!-- id: 19 -->
+    - [x] Github 레포지토리 연결 및 배포 브랜치 설정 (main, develop) <!-- id: 19 -->
 - [x] 데이터베이스 및 백엔드 설정 <!-- id: 4 -->
     - [x] Prisma 설정 및 스키마 설계 (User, Post, Gallery, Bulletin) <!-- id: 5 -->
     - [x] Supabase 프로젝트 연동 (환경변수 설정 및 DB Push) <!-- id: 6 -->
