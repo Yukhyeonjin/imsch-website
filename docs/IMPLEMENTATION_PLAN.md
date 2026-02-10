@@ -1,144 +1,42 @@
-# 교회 웹사이트 구현 계획 (최종: 디자인 레퍼런스 반영)
+# 주보(Bulletin) 및 파일 업로드 구현 계획
 
-## 목표 설명
-React와 Next.js, Supabase를 사용하여 **보안이 강력하고 유지비용이 없는** 교회 웹사이트를 구축합니다. **제공해주신 대형 교회 레퍼런스(명성, 온누리, 여의도순복음)**의 퀄리티를 지향하며, 모바일에서도 완벽하게 작동하는 반응형 디자인을 적용합니다.
+게시판(Board) 기능에 이어 주보 업로드 및 조회 기능을 구현합니다.
+Supabase Storage의 `files` 버킷을 사용하여 PDF 파일을 업로드하고, `Bulletin` 모델에 메타데이터를 저장합니다.
 
-## 프로젝트 기본 정보 (Project Context)
-- **교회명**: 인천국제명성교회 (Incheon International Myungsung Church)
-- **기존 웹사이트**: http://www.imsch.or.kr/
-- **데이터베이스 정책**: 현재 사용 중인 Supabase DB는 **임시 개발용**이며, 추후 정식 운영 계정으로 이관(Migration) 예정임.
+## User Review Required
+- **Supabase Storage**: `files` 버킷이 `Public`으로 설정되어 있어야 합니다. (이미 요청함)
+- **URL**: `/bulletin` 경로를 사용합니다.
 
+## Proposed Changes
 
-## 디자인 방향성 (레퍼런스 분석)
-> [!NOTE]
-> **대형 교회 웹사이트 특징 및 적용 계획**
-> 1.  **메인 비주얼**: 대형 히어로 이미지/비디오 슬라이더 사용. (교회 전경, 예배 모습 등)
-> 2.  **직관적인 네비게이션**: '교회소개', '예배/말씀', '사역', '소식' 등 명확한 분류. 메가 메뉴 스타일 고려.
-> 3.  **카드형 레이아웃**: 뉴스, 갤러리, 주보 등을 깔끔한 그리드/카드 형태로 배치. 모바일에서는 스택(Stack) 형태로 자연스럽게 변환.
-> 4.  **미디어 중심**: 설교 영상이나 행사 사진이 돋보이도록 넉넉한 여백과 큰 이미지 사용.
-> 5.  **컬러 팔레트**: 신뢰감을 주는 블루/네이비 또는 따뜻한 화이트/베이지 톤 + 포인트 컬러.
+### Libs
+#### [NEW] [storage.ts](file:///e:/Yuk/workspace/msch/lib/supabase/storage.ts)
+- `uploadFile(file: File, bucket: string, path: string)`: 파일을 Supabase Storage에 업로드하고 Public URL을 반환하는 함수.
+- **Note**: Server Action에서 호출하거나, Client에서 직접 호출할 수 있음. 보안을 위해 Server Action 내부에서 처리 권장.
 
-## 확정된 기술 스택
-1.  **프레임워크**: Next.js 14+ (App Router).
-2.  **스타일링**: Tailwind CSS + Shadcn UI (프리미엄 UI 컴포넌트).
-3.  **백엔드**: Supabase (Auth, DB, Storage).
-4.  **배포**: Vercel.
+### Components
+#### [NEW] [FileUpload.tsx](file:///e:/Yuk/workspace/msch/components/ui/file-upload.tsx)
+- 파일 선택 및 미리보기를 제공하는 UI 컴포넌트
+- `input type="file"`, Drag & Drop 지원 (가능하면)
 
-## 구현 단계
+### Bulletin Feature (`app/bulletin`)
+#### [NEW] [actions.ts](file:///e:/Yuk/workspace/msch/app/bulletin/actions.ts)
+- `createBulletin(data: FormData)`: 파일 업로드 및 DB 저장 처리
+- `getBulletins(page, limit)`: 주보 목록 조회
+- `deleteBulletin(id, pdfUrl)`: 주보 및 파일 삭제
 
-### 1단계: 프로젝트 설정 및 환경 구성 (완료 예정)
-- Next.js + Tailwind 설치 완료.
-- **[진행 중] 필수 패키지 설치**: `lucide-react`, `clsx`, `tailwind-merge`.
-- **[진행 중] Shadcn UI 설정**: 버튼, 카드, 다이얼로그, 폼 등 기본 컴포넌트 설치.
+#### [NEW] [page.tsx](file:///e:/Yuk/workspace/msch/app/bulletin/page.tsx)
+- 주보 목록 표시 (Grid 또는 List)
+- 최근 주보 강조 표시
+- PDF 다운로드/보기 링크 제공
 
-### 2단계: 레이아웃 및 디자인 시스템 구축
-- **폰트**: 구글 폰트 (Noto Sans KR, Pretendard 등 가독성 좋은 한글 폰트 적용).
-- **공통 레이아웃**: 헤더(모바일 햄버거 메뉴 포함), 푸터(교회 정보, SNS 링크).
-- **반응형 그리드**: Desktop(4열) -> Tablet(2열) -> Mobile(1열) 자동 변환 구조.
+#### [NEW] [new/page.tsx](file:///e:/Yuk/workspace/msch/app/bulletin/new/page.tsx)
+- 주보 등록 폼 (제목, 날짜, PDF 파일)
 
-### 3단계: 핵심 페이지 구현
-- **메인**: 슬라이더, 바로가기 아이콘, 최신 소식/설교 요약 섹션.
-- **서브**:
-    - **소식/게시판**: 리스트 뷰 & 상세 뷰.
-    - **갤러리**: Masonry 또는 Grid 레이아웃.
-    - **오시는 길**: 카카오맵/네이버지도 연동.
+### Navigation
+- `lib/constants.ts`: `/bulletin` 링크 추가 (이미 헤더에는 없지만 추가 필요)
 
-### 4단계: 기능 개발 (Supabase)
-- 회원가입/로그인 (Supabase Auth).
-- 파일 업로드 및 게시글 작성.
-
-## 검증 계획
-- **반응형 테스트**: 크롬 개발자 도구 및 실제 모바일 기기 해상도 시뮬레이션.
-- **디자인 검수**: 레퍼런스 사이트와 비교하여 전문성 확인.
-
----
-
-## 변경 및 운영 원칙 (Change & Operation Policy)
-
-본 문서는 교회 웹사이트 개발 및 운영의 **유일한 기준 문서(Single Source of Truth)** 로 사용한다.
-
-### 변경 규칙
-1. 기능 추가/수정은 반드시 다음 순서를 따른다.
-   - IMPLEMENTATION_PLAN.md 수정
-   - TASK.md 작업 항목 추가 또는 상태 변경
-   - 코드 구현
-2. TASK.md에 명시되지 않은 기능은 구현하지 않는다.
-3. 디자인/구조 변경 시 반드시 본 문서에 변경 이력을 남긴다.
-
----
-
-## 기술·설계 결정 로그 (Decision Log)
-
-| 날짜 | 결정 내용 | 사유 |
-|---|---|---|
-| 2026-01 | Next.js(App Router) 채택 | SEO, 성능, 유지보수성 |
-| 2026-01 | Supabase 사용 | 비용 0, Auth/DB/Storage 통합 |
-| 2026-01 | Prisma 유지 | 타입 안정성, 스키마 관리 용이 |
-| 2026-02 | **디자인 임시 적용** | 추후 전면 개편 예정이므로 현재 디자인은 기능 검증용으로 간주함 |
-
----
-
-## 보안 및 권한 정책
-
-### 사용자 권한
-- 비로그인 사용자
-  - 모든 콘텐츠 열람 가능
-- 관리자(Admin)
-  - 게시글/주보/갤러리 CRUD 가능
-
-### 보안 원칙
-- Supabase Row Level Security(RLS) 필수 적용
-- 관리자 권한은 서버 사이드에서만 검증
-- Storage 접근 권한 명확히 구분 (Public / Private)
-
----
-
-## 개인정보 처리 원칙
-
-- 회원가입 시 이메일 외 개인정보 수집 금지
-- 연락처 페이지는 DB 저장 없이 메일 전송 방식 사용
-- 불필요한 로그 및 사용자 추적 스크립트 사용 금지
-
----
-
-## UI/UX 컴포넌트 규칙
-
-- UI 컴포넌트는 shadcn/ui 기반으로만 구성
-- Button, Card, Modal 등은 공통 컴포넌트만 사용
-- 페이지별 중복 컴포넌트 생성 금지 (재사용 우선)
-
----
-
-## 반응형 디자인 기준
-
-- Mobile: ≤ 640px
-- Tablet: 641px ~ 1024px
-- Desktop: ≥ 1025px
-- 모든 페이지는 Mobile First 기준으로 구현
-
----
-
-## 운영자 관점 체크리스트
-
-- 관리자 계정 최소 2개 이상 생성
-- 갤러리 이미지는 자동 리사이징 적용
-- 삭제 작업 시 복구 불가 안내 문구 표시
-
----
-
-## 백업 및 장애 대응 정책
-
-- Supabase 기본 백업 정책 사용
-- 이미지 및 파일 삭제는 즉시 반영되며 복구 불가
-- 운영자 실수 방지를 위한 UI 경고 적용
-
----
-
-## AI 생성 및 자동화 규칙
-
-- 기존 폴더 구조 및 파일 네이밍 변경 금지
-- 기술 스택 변경 시 반드시 사유 명시
-- 문서에 명시되지 않은 기능은 추측으로 구현하지 않음
-- 불확실한 사항은 임의 판단하지 말고 질문한다
-
----
+## Verification Plan
+1. **Upload**: PDF 파일을 선택하고 '등록' 버튼 클릭 시 업로드 성공 여부 확인.
+2. **Download**: 목록에서 주보 클릭 시 PDF가 열리거나 다운로드되는지 확인.
+3. **Delete**: 삭제 시 DB 데이터와 Storage 파일이 모두 삭제되는지 확인.

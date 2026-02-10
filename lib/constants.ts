@@ -14,6 +14,7 @@ export const NAV_LINKS = [
     { name: "교회소개", href: "/about" },
     { name: "예배/말씀", href: "/sermon" },
     { name: "교회소식", href: "/news" },
+    { name: "게시판", href: "/board" },
     { name: "갤러리", href: "/gallery" },
     { name: "오시는 길", href: "/contact" },
 ];

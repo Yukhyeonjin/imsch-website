@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+import prisma from "@/lib/prisma"
 import { LoginInput, SignupInput } from "@/lib/schemas"
 
 export async function login(data: LoginInput) {
@@ -24,7 +25,7 @@ export async function login(data: LoginInput) {
 export async function signup(data: SignupInput) {
     const supabase = await createClient()
 
-    const { error } = await supabase.auth.signUp({
+    const { data: authData, error } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
         options: {
@@ -36,6 +37,22 @@ export async function signup(data: SignupInput) {
 
     if (error) {
         return { error: error.message }
+    }
+
+    if (authData.user) {
+        try {
+            await prisma.profile.create({
+                data: {
+                    id: authData.user.id,
+                    email: data.email,
+                    role: "MEMBER", // Default role
+                }
+            })
+        } catch (e) {
+            console.error("Failed to create profile:", e)
+            // Optional: Consider if we should cleanup auth user or just log error
+            // preventing login later if profile missing?
+        }
     }
 
     revalidatePath("/", "layout")
