@@ -87,12 +87,12 @@ export function Header() {
                             <SheetHeader>
                                 <SheetTitle className="text-left">{CHURCH_INFO.name}</SheetTitle>
                             </SheetHeader>
-                            <nav className="mt-8 flex flex-col">
+                            <nav className="mt-6 flex flex-col px-2">
                                 {NAV_LINKS.map((link: NavLink, index: number) => (
                                     <div key={link.href} className="border-b last:border-b-0">
                                         <button
                                             onClick={() => toggleMobileMenu(index)}
-                                            className="flex items-center justify-between w-full py-3 text-base font-medium transition-colors hover:text-primary"
+                                            className="flex items-center justify-between w-full px-3 py-4 text-base font-medium transition-colors hover:text-primary"
                                         >
                                             <span>{link.name}</span>
                                             <ChevronDown
@@ -103,13 +103,13 @@ export function Header() {
                                             />
                                         </button>
                                         {openMobileMenu === index && (
-                                            <ul className="pb-2 pl-2 flex flex-col gap-1">
+                                            <ul className="pb-3 pl-4 flex flex-col gap-0.5">
                                                 {link.children.map((child) => (
                                                     <li key={child.href}>
                                                         <Link
                                                             href={child.href}
                                                             onClick={() => setIsOpen(false)}
-                                                            className="block py-1.5 px-2 text-sm text-muted-foreground hover:text-primary transition-colors rounded-sm"
+                                                            className="block py-2.5 px-3 text-sm text-muted-foreground hover:text-primary hover:bg-accent transition-colors rounded-md"
                                                         >
                                                             {child.name}
                                                         </Link>
@@ -119,7 +119,7 @@ export function Header() {
                                         )}
                                     </div>
                                 ))}
-                                <div className="mt-4 pt-4 border-t">
+                                <div className="mt-6 pt-4 px-3 border-t">
                                     <Button className="w-full" asChild>
                                         <Link href="/login" onClick={() => setIsOpen(false)}>
                                             로그인
