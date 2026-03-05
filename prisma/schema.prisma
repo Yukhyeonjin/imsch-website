@@ -18,8 +18,9 @@ model Profile {
   role      Role     @default(MEMBER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   posts     Post[]
+  resources Resource[]
 }
 
 enum Role {
@@ -55,6 +56,19 @@ model Gallery {
   title       String
   description String?
   imageUrl    String   // Supabase Storage URL
+  category    String   @default("GENERAL") // GENERAL, NEWCOMER
   date        DateTime @default(now()) // 행사 날짜
+  createdAt   DateTime @default(now())
+}
+
+// 자료실 (악보, 다운로드 등)
+model Resource {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  fileUrl     String   // Supabase Storage URL
+  category    String   // SHEET_MUSIC, DOWNLOAD
+  authorId    String
+  author      Profile  @relation(fields: [authorId], references: [id])
   createdAt   DateTime @default(now())
 }

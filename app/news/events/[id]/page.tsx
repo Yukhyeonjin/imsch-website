@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { getPost, deletePost } from "../actions"
 import { createClient } from "@/lib/supabase/server"
 
-export default async function BoardDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const post = await getPost(id)
     if (!post) {
@@ -19,7 +19,6 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
     const { data: { user } } = await supabase.auth.getUser()
     const isAuthor = user?.id === post.authorId
 
-    // Server action wrapper for delete button form
     async function deleteAction() {
         "use server"
         await deletePost(id)
@@ -29,7 +28,7 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
         <div className="container py-10 px-4 md:px-6 max-w-4xl mx-auto">
             <div className="mb-6">
                 <Button variant="outline" size="sm" asChild className="mb-4">
-                    <Link href="/board">← 목록으로</Link>
+                    <Link href="/news/events">← 목록으로</Link>
                 </Button>
 
                 <div className="flex items-center gap-2 mb-2">
@@ -51,7 +50,7 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
                     {isAuthor && (
                         <div className="flex gap-2">
                             <Button variant="outline" size="sm" asChild>
-                                <Link href={`/board/${post.id}/edit`}>수정</Link>
+                                <Link href={`/news/events/${post.id}/edit`}>수정</Link>
                             </Button>
                             <form action={deleteAction}>
                                 <Button variant="destructive" size="sm" type="submit">
@@ -64,7 +63,6 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
             </div>
 
             <div className="prose prose-stone max-w-none min-h-[300px]">
-                {/* Content - Pre-wrap to preserve newlines if using simple textarea */}
                 <div className="whitespace-pre-wrap">
                     {post.content}
                 </div>
@@ -74,7 +72,7 @@ export default async function BoardDetailPage({ params }: { params: Promise<{ id
 
             <div className="flex justify-center">
                 <Button variant="secondary" asChild>
-                    <Link href="/board">목록으로 돌아가기</Link>
+                    <Link href="/news/events">목록으로 돌아가기</Link>
                 </Button>
             </div>
         </div>

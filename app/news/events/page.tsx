@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table"
 import { getPosts } from "./actions"
 
-export default async function BoardPage({
+export default async function EventsPage({
     searchParams,
 }: {
     searchParams: Promise<{ page?: string; category?: string }>
@@ -28,13 +28,13 @@ export default async function BoardPage({
             <div className="container py-10 px-4 md:px-6">
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">게시판</h1>
+                        <h1 className="text-3xl font-bold tracking-tight">행사/소식</h1>
                         <p className="text-muted-foreground mt-2">
                             교회의 다양한 소식과 공지사항을 확인하세요.
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href="/board/new">글쓰기</Link>
+                        <Link href="/news/events/new">글쓰기</Link>
                     </Button>
                 </div>
 
@@ -60,12 +60,11 @@ export default async function BoardPage({
                                 posts.map((post, index) => (
                                     <TableRow key={post.id}>
                                         <TableCell className="font-medium">
-                                            {/* Simple index calculation, or use createAt */}
                                             {(page - 1) * 10 + index + 1}
                                         </TableCell>
                                         <TableCell>{post.category}</TableCell>
                                         <TableCell>
-                                            <Link href={`/board/${post.id}`} className="hover:underline">
+                                            <Link href={`/news/events/${post.id}`} className="hover:underline">
                                                 {post.title}
                                             </Link>
                                         </TableCell>
@@ -83,10 +82,9 @@ export default async function BoardPage({
                 </div>
 
                 <div className="flex items-center justify-center space-x-2 py-4">
-                    {/* Simple Pagination */}
                     {page > 1 && (
                         <Button variant="outline" size="sm" asChild>
-                            <Link href={`/board?page=${page - 1}${category ? `&category=${category}` : ""}`}>이전</Link>
+                            <Link href={`/news/events?page=${page - 1}${category ? `&category=${category}` : ""}`}>이전</Link>
                         </Button>
                     )}
                     <span className="text-sm text-muted-foreground">
@@ -94,15 +92,15 @@ export default async function BoardPage({
                     </span>
                     {page < totalPages && (
                         <Button variant="outline" size="sm" asChild>
-                            <Link href={`/board?page=${page + 1}${category ? `&category=${category}` : ""}`}>다음</Link>
+                            <Link href={`/news/events?page=${page + 1}${category ? `&category=${category}` : ""}`}>다음</Link>
                         </Button>
                     )}
                 </div>
             </div>
         )
     } catch (e: unknown) {
-        console.error("BoardPage Error:", e);
-        const errorMessage = e instanceof Error ? e.message : String(e);
+        console.error("EventsPage Error:", e)
+        const errorMessage = e instanceof Error ? e.message : String(e)
 
         return (
             <div className="container py-20">

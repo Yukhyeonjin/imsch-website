@@ -22,7 +22,7 @@ export function Hero() {
                         <Link href="/about">교회 소개</Link>
                     </Button>
                     <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-full text-black hover:bg-white/90" asChild>
-                        <Link href="/sermon">설교 듣기</Link>
+                        <Link href="/newcomer/guide">새가족 안내</Link>
                     </Button>
                 </div>
             </div>

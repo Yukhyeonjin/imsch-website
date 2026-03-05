@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation"
 import { getPost } from "../../actions"
-import { PostForm } from "@/components/board/PostForm"
+import { PostForm } from "@/components/news/PostForm"
 import { createClient } from "@/lib/supabase/server"
 
-export default async function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function EditEventPostPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const post = await getPost(id)
     if (!post) notFound()

@@ -1,6 +1,6 @@
-import { PostForm } from "@/components/board/PostForm"
+import { PostForm } from "@/components/news/PostForm"
 
-export default function NewPostPage() {
+export default function NewEventPostPage() {
     return (
         <div className="container py-10 px-4 md:px-6">
             <PostForm />

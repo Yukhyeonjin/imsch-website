@@ -1,10 +1,11 @@
-import { CHURCH_INFO } from "@/lib/constants";
+import Link from "next/link";
+import { CHURCH_INFO, NAV_LINKS } from "@/lib/constants";
 
 export function Footer() {
     return (
         <footer className="border-t bg-muted/40 text-muted-foreground">
             <div className="container py-8 md:py-12 px-4 md:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Info */}
                     <div className="space-y-3">
                         <h3 className="text-lg font-semibold text-foreground">
@@ -17,6 +18,20 @@ export function Footer() {
                         </p>
                     </div>
 
+                    {/* Quick Links */}
+                    <div className="space-y-3">
+                        <h3 className="text-lg font-semibold text-foreground">바로가기</h3>
+                        <ul className="text-sm space-y-1">
+                            {NAV_LINKS.slice(0, 3).map((link) => (
+                                <li key={link.href}>
+                                    <Link href={link.href} className="hover:text-foreground transition-colors">
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
                     {/* Contact */}
                     <div className="space-y-3">
                         <h3 className="text-lg font-semibold text-foreground">Contact</h3>
@@ -27,7 +42,7 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* Service Times (Simple Placeholder) */}
+                    {/* Service Times */}
                     <div className="space-y-3">
                         <h3 className="text-lg font-semibold text-foreground">예배 안내</h3>
                         <ul className="text-sm space-y-1">

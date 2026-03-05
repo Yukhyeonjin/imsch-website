@@ -20,9 +20,8 @@ import {
 } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
-import { createPost, updatePost, PostInput } from "@/app/board/actions"
+import { createPost, updatePost, PostInput } from "@/app/news/events/actions"
 
-// Schema needs to be same as server, duplicate for client validation
 const PostSchema = z.object({
     title: z.string().min(1, "제목을 입력해주세요."),
     content: z.string().min(1, "내용을 입력해주세요."),
@@ -67,17 +66,8 @@ export function PostForm({ post }: PostFormProps) {
                 toast.error(result.error)
             } else {
                 toast.success(isEdit ? "게시글이 수정되었습니다." : "게시글이 작성되었습니다.")
-                // Should redirect via server action, but fallback here if action doesn't redirect on success object return?
-                // Currently actions redirect, so this might not be reached if redirect happens.
-                // However, actions using `redirect` throws error that is caught by Next.js, 
-                // but sometimes we want to handle it.
-                // In this case, `createPost` redirects, so code below might not run on success.
             }
         } catch (e) {
-            // Check if it's a redirect error (NEXT_REDIRECT) - let it pass
-            // But usually we can't easily catch NEXT_REDIRECT in client like this.
-            // It's better if server action returns success/fail object and we redirect client-side.
-            // But let's assume server action handles it.
             toast.error("오류가 발생했습니다.")
         } finally {
             setIsLoading(false)
