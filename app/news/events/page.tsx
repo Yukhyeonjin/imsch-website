@@ -25,76 +25,80 @@ export default async function EventsPage({
         const { posts, totalPages } = await getPosts(page, 10, category)
 
         return (
-            <div className="container py-10 px-4 md:px-6">
-                <div className="flex items-center justify-between mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">행사/소식</h1>
-                        <p className="text-muted-foreground mt-2">
-                            교회의 다양한 소식과 공지사항을 확인하세요.
-                        </p>
+            <div>
+                <div className="bg-slate-900 text-white py-16">
+                    <div className="container px-4 md:px-6 flex items-center justify-between">
+                        <div>
+                            <h1 className="text-4xl font-bold tracking-tight">행사와 소식</h1>
+                            <p className="mt-3 text-slate-300 text-lg">
+                                교회의 다양한 소식과 공지사항을 확인하세요.
+                            </p>
+                        </div>
+                        <Button asChild variant="secondary">
+                            <Link href="/news/events/new">글쓰기</Link>
+                        </Button>
                     </div>
-                    <Button asChild>
-                        <Link href="/news/events/new">글쓰기</Link>
-                    </Button>
                 </div>
 
-                <div className="rounded-md border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[100px]">번호</TableHead>
-                                <TableHead className="w-[100px]">분류</TableHead>
-                                <TableHead>제목</TableHead>
-                                <TableHead className="w-[100px] text-right">작성자</TableHead>
-                                <TableHead className="w-[100px] text-right">작성일</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {posts.length === 0 ? (
+                <div className="container px-4 md:px-6 py-12">
+                    <div className="rounded-md border">
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell colSpan={5} className="h-24 text-center">
-                                        게시글이 없습니다.
-                                    </TableCell>
+                                    <TableHead className="w-[80px]">번호</TableHead>
+                                    <TableHead className="w-[90px]">분류</TableHead>
+                                    <TableHead>제목</TableHead>
+                                    <TableHead className="w-[100px] text-right">작성자</TableHead>
+                                    <TableHead className="w-[100px] text-right">작성일</TableHead>
                                 </TableRow>
-                            ) : (
-                                posts.map((post, index) => (
-                                    <TableRow key={post.id}>
-                                        <TableCell className="font-medium">
-                                            {(page - 1) * 10 + index + 1}
-                                        </TableCell>
-                                        <TableCell>{post.category}</TableCell>
-                                        <TableCell>
-                                            <Link href={`/news/events/${post.id}`} className="hover:underline">
-                                                {post.title}
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            {post.author.email.split("@")[0]}
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            {format(post.createdAt, "yyyy.MM.dd", { locale: ko })}
+                            </TableHeader>
+                            <TableBody>
+                                {posts.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="h-24 text-center">
+                                            게시글이 없습니다.
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
+                                ) : (
+                                    posts.map((post, index) => (
+                                        <TableRow key={post.id}>
+                                            <TableCell className="font-medium">
+                                                {(page - 1) * 10 + index + 1}
+                                            </TableCell>
+                                            <TableCell>{post.category}</TableCell>
+                                            <TableCell>
+                                                <Link href={`/news/events/${post.id}`} className="hover:underline">
+                                                    {post.title}
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                {post.author.email.split("@")[0]}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                {format(post.createdAt, "yyyy.MM.dd", { locale: ko })}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
 
-                <div className="flex items-center justify-center space-x-2 py-4">
-                    {page > 1 && (
-                        <Button variant="outline" size="sm" asChild>
-                            <Link href={`/news/events?page=${page - 1}${category ? `&category=${category}` : ""}`}>이전</Link>
-                        </Button>
-                    )}
-                    <span className="text-sm text-muted-foreground">
-                        {page} / {totalPages === 0 ? 1 : totalPages}
-                    </span>
-                    {page < totalPages && (
-                        <Button variant="outline" size="sm" asChild>
-                            <Link href={`/news/events?page=${page + 1}${category ? `&category=${category}` : ""}`}>다음</Link>
-                        </Button>
-                    )}
+                    <div className="flex items-center justify-center space-x-2 pt-8">
+                        {page > 1 && (
+                            <Button variant="outline" size="sm" asChild>
+                                <Link href={`/news/events?page=${page - 1}${category ? `&category=${category}` : ""}`}>이전</Link>
+                            </Button>
+                        )}
+                        <span className="text-sm text-muted-foreground">
+                            {page} / {totalPages === 0 ? 1 : totalPages}
+                        </span>
+                        {page < totalPages && (
+                            <Button variant="outline" size="sm" asChild>
+                                <Link href={`/news/events?page=${page + 1}${category ? `&category=${category}` : ""}`}>다음</Link>
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
         )

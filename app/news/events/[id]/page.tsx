@@ -25,7 +25,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
     }
 
     return (
-        <div className="container py-10 px-4 md:px-6 max-w-4xl mx-auto">
+        <div className="container py-12 px-4 md:px-6 max-w-4xl mx-auto">
             <div className="mb-6">
                 <Button variant="outline" size="sm" asChild className="mb-4">
                     <Link href="/news/events">← 목록으로</Link>

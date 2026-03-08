@@ -16,7 +16,7 @@ export default async function EditEventPostPage({ params }: { params: Promise<{ 
     }
 
     return (
-        <div className="container py-10 px-4 md:px-6">
+        <div className="container py-12 px-4 md:px-6">
             <PostForm post={post} />
         </div>
     )
