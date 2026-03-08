@@ -27,20 +27,20 @@ export default async function EventsPage({
         return (
             <div>
                 <div className="bg-slate-900 text-white py-16">
-                    <div className="container px-4 md:px-6 flex items-center justify-between">
-                        <div>
-                            <h1 className="text-4xl font-bold tracking-tight">행사와 소식</h1>
-                            <p className="mt-3 text-slate-300 text-lg">
-                                교회의 다양한 소식과 공지사항을 확인하세요.
-                            </p>
-                        </div>
-                        <Button asChild variant="secondary">
-                            <Link href="/news/events/new">글쓰기</Link>
-                        </Button>
+                    <div className="container px-4 md:px-6">
+                        <h1 className="text-4xl font-bold tracking-tight">행사와 소식</h1>
+                        <p className="mt-3 text-slate-300 text-lg">
+                            교회의 다양한 소식과 공지사항을 확인하세요.
+                        </p>
                     </div>
                 </div>
 
                 <div className="container px-4 md:px-6 py-12">
+                    <div className="flex justify-end mb-6">
+                        <Button asChild>
+                            <Link href="/news/events/new">글쓰기</Link>
+                        </Button>
+                    </div>
                     <div className="rounded-md border">
                         <Table>
                             <TableHeader>

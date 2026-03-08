@@ -3,18 +3,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface DepartmentLayoutProps {
     name: string
+    subtitle?: string
     target: string
     schedule: string
     description: string
     children?: React.ReactNode
 }
 
-export function DepartmentLayout({ name, target, schedule, description, children }: DepartmentLayoutProps) {
+export function DepartmentLayout({ name, subtitle, target, schedule, description, children }: DepartmentLayoutProps) {
     return (
         <div>
             <div className="bg-slate-900 text-white py-16">
                 <div className="container px-4 md:px-6">
                     <h1 className="text-4xl font-bold tracking-tight">{name}</h1>
+                    {subtitle && (
+                        <p className="mt-3 text-slate-300 text-lg">{subtitle}</p>
+                    )}
                 </div>
             </div>
 
